@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   # Define a resource route for a controller
 
   devise_scope :user do
-    post 'signin', to: 'users/registrations#create'
+    post 'signup', to: 'users/registrations#create'
   end
 
   resources :categories
