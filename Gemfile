@@ -9,7 +9,7 @@ gem "rack-cors" ## security gem
 
 gem "devise" ## user auth
 
-# gem "jsonapi-serializer" ## serializer
+gem "jsonapi-serializer" ## serializer
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
