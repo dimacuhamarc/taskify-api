@@ -9,6 +9,8 @@ gem "rack-cors" ## security gem
 
 gem "devise" ## user auth
 
+gem "devise-jwt" ## user auth
+
 gem "jsonapi-serializer" ## serializer
 
 # Use postgresql as the database for Active Record
