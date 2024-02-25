@@ -5,6 +5,7 @@ class TasksController < ApplicationController
 
   respond_to :json
 
+  # GET /tasks
   def index
     if @tasks.empty?
       render json: { message: 'No tasks found.' }
@@ -13,10 +14,12 @@ class TasksController < ApplicationController
     end
   end
 
+  # GET /tasks/1
   def show
     respond_with @task
   end
 
+  # POST /tasks
   def new
     @task = current_user.tasks.build
   end
@@ -31,6 +34,7 @@ class TasksController < ApplicationController
     end
   end
 
+  # PUT /tasks/1/edit
   def edit
   end
 
@@ -42,6 +46,7 @@ class TasksController < ApplicationController
     end
   end
 
+  # DELETE /tasks/1
   def destroy
     @task = current_user.tasks.find(params[:id])
     @task.destroy
