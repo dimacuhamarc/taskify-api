@@ -1,16 +1,25 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_category, only: [:show, :edit, :update, :destroy]
+  before_action :set_categories, only: [:index]
+
+  respond_to :json
 
   # GET /categories
   def index
-    @categories = current_user.categories
+    if @categories.empty?
+      render json: { message: 'No Categories found.' }
+    else
+      respond_with @categories
+    end
   end
 
+  # GET /categories/1
   def show
+    respond_with @category
   end
 
-  # GET /categories/new
+  # POST /categories/new
   def new
     @category = current_user.categories.build
   end
@@ -25,7 +34,7 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # GET /categories/1/edit
+  # PUT /categories/1/edit
   def edit
   end
 
@@ -37,18 +46,24 @@ class CategoriesController < ApplicationController
     end
   end
 
+  # DELETE /categories/1
   def destroy
+    @category = current_user.categories.find(params[:id])
     @category.destroy
     redirect_to categories_url, notice: 'Category was successfully destroyed.'
   end
 
   private
 
+  def set_categories
+    @categories = current_user.categories
+  end
+  
   def set_category
     @category = current_user.categories.find(params[:id])
   end
 
   def category_params
-    params.require(:category).permit(:name)
+    params.require(:category).permit(:title, :subtitle).merge(user_id: current_user.id)
   end
 end

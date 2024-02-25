@@ -1,12 +1,20 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_tasks, only: [:index]
+
+  respond_to :json
 
   def index
-    @tasks = current_user.tasks
+    if @tasks.empty?
+      render json: { message: 'No tasks found.' }
+    else
+      respond_with @tasks
+    end
   end
 
   def show
+    respond_with @task
   end
 
   def new
@@ -35,17 +43,22 @@ class TasksController < ApplicationController
   end
 
   def destroy
+    @task = current_user.tasks.find(params[:id])
     @task.destroy
-    redirect_to tasks_url, notice: 'Task was successfully destroyed.'
+    redirect_to tasks_url, notice: 'Category was successfully destroyed.'
   end
 
   private
+
+  def set_tasks
+    @tasks = current_user.tasks
+  end
 
   def set_task
     @task = current_user.tasks.find(params[:id])
   end
 
   def task_params
-    params.require(:task).permit(:title, :category_id, :status, :user_id)
+    params.require(:task).permit(:title,:description, :category_id, :status).merge(user_id: current_user.id)
   end
 end
