@@ -2,6 +2,7 @@ class TasksController < ApplicationController
   before_action :authenticate_user!
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :set_tasks, only: [:index]
+  before_action :set_uncategorized, only: [:uncategorized]
 
   respond_to :json
 
@@ -17,6 +18,15 @@ class TasksController < ApplicationController
   # GET /tasks/1
   def show
     respond_with @task
+  end
+
+  # GET /tasks/uncategorized
+  def uncategorized
+    if @uncategorized.empty?
+      render json: { message: 'No uncategorized tasks found.' }
+    else
+      respond_with @uncategorized
+    end
   end
 
   # POST /tasks
@@ -54,6 +64,10 @@ class TasksController < ApplicationController
   end
 
   private
+
+  def set_uncategorized
+    @uncategorized = current_user.tasks.where(category_id: nil)
+  end  
 
   def set_tasks
     @tasks = current_user.tasks

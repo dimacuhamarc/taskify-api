@@ -25,8 +25,16 @@ Rails.application.routes.draw do
     post 'signup', to: 'users/registrations#create'
   end
 
-  resources :categories
-  resources :tasks
+  
+
+  scope :api do
+    scope :v1 do
+      resources :categories
+      get 'tasks/uncategorized', to: 'tasks#uncategorized'
+      resources :tasks
+    end
+  end
+
   resources :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
