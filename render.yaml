@@ -1,12 +1,12 @@
 databases:
-  - name: taskify-api
-    databaseName: taskify-api
-    user: taskify-api
+  - name: taskify
+    databaseName: taskify
+    user: taskify
     plan: free
 
 services:
   - type: web
-    name: taskify-api
+    name: taskify
     runtime: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
@@ -15,7 +15,7 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: taskify-api
+          name: taskify
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
