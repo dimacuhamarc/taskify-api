@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users, path: '', 
   path_names: { 
-    sign_in: 'signin', 
-    sign_out: 'signout', 
-    sign_up: 'signup' 
+    sign_in: 'signin', # POST
+    sign_out: 'signout', # DELETE
+    sign_up: 'signup' # POST
   },
   controllers: {
     sessions: 'users/sessions',

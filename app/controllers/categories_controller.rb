@@ -49,6 +49,9 @@ class CategoriesController < ApplicationController
   # DELETE /categories/1
   def destroy
     @category = current_user.categories.find(params[:id])
+    @category.tasks.each do |task|
+      task.update(category_id: nil)
+    end
     @category.destroy
     redirect_to categories_url, notice: 'Category was successfully destroyed.'
   end
@@ -61,6 +64,10 @@ class CategoriesController < ApplicationController
   
   def set_category
     @category = current_user.categories.find(params[:id])
+  end
+
+  def task_params 
+    params.require(:task).permit(:category_id)
   end
 
   def category_params
