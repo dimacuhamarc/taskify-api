@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   scope :api do
     scope :v1 do
+      resources :users, only: [:index]
       resources :categories
       get 'tasks/uncategorized', to: 'tasks#uncategorized'
       resources :tasks
